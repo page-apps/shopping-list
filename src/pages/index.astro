@@ -71,6 +71,7 @@ import fixture from "../../demo/shopping.json";
     <dialog class="connect-dialog" data-connect-dialog>
       <div class="dialog-title"><div><p class="eyebrow">Owner access</p><h2>Open your private list</h2></div><button type="button" class="close-button" data-dialog-close aria-label="Close dialog">×</button></div>
       <p class="dialog-copy">Connect a fine-grained GitHub PAT with <strong>Contents: read and write</strong> access to <code>page-apps/shopping-list-data</code>. The token goes only to GitHub.</p>
+      <div class="shared-option" data-shared-option hidden><strong>A shared Page Apps PAT is available</strong><p>Use the credential already configured in Personal Hub on this same <code>page-apps.github.io</code> origin.</p><button class="button button-accent" type="button" data-use-shared>Use shared Page Apps PAT</button><div class="or"><span>or use a separate token</span></div></div>
       <form data-token-form>
         <label class="field"><span>Personal access token</span><input name="token" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste your token here" required /></label>
         <fieldset><legend>Keep connected</legend><label><input type="radio" name="persistence" value="memory" checked /> Until refresh</label><label><input type="radio" name="persistence" value="session" /> This browser tab</label><label><input type="radio" name="persistence" value="local" /> On this device</label></fieldset>

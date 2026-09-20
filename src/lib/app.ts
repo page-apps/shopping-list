@@ -118,6 +118,7 @@ async function connect(token: string, persistence: "memory" | "session" | "local
 }
 
 function openConnect(): void {
+  $<HTMLElement>("[data-shared-option]").toggleAttribute("hidden", !vault.hasShared());
   $<HTMLElement>("[data-connect-error]").textContent = "";
   $<HTMLDialogElement>("[data-connect-dialog]").showModal();
 }
@@ -135,6 +136,12 @@ function setup(): void {
   $<HTMLElement>("[data-private-gate]").addEventListener("click", openConnect);
   $<HTMLElement>("[data-disconnect-button]").addEventListener("click", () => { vault.disconnect(); repository = null; account = ""; list = structuredClone(embedded<ShoppingList>("shopping-fixture")); selectedId = list.items[0]?.id ?? null; showConnected(false); setStatus("Demo mode", "A safe example list is loaded", "idle"); render(); });
   $<HTMLElement>("[data-dialog-close]").addEventListener("click", () => $<HTMLDialogElement>("[data-connect-dialog]").close());
+  $<HTMLElement>("[data-use-shared]").addEventListener("click", () => {
+    void connect(vault.useShared(), "memory", false).catch((error) => {
+      $<HTMLElement>("[data-connect-error]").textContent = error instanceof Error ? error.message : "Could not use the shared PAT.";
+      setStatus("Connection failed", "Check the shared PAT and private repository access", "error");
+    });
+  });
   $<HTMLFormElement>("[data-token-form]").addEventListener("submit", (event) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget as HTMLFormElement);
