@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-18T20:00:00.000Z",
+  "items": [
+    {
+      "id": "item-espresso-grinder",
+      "query": "quiet espresso grinder for a small kitchen",
+      "notes": "Prefer low retention, easy to clean, under $500 AUD.",
+      "status": "research_ready",
+      "createdAt": "2026-09-10T07:00:00.000Z",
+      "updatedAt": "2026-09-18T20:00:00.000Z",
+      "recommendations": [
+        {
+          "title": "Baratza Encore ESP",
+          "merchant": "Alternative Brewing",
+          "url": "https://alternativebrewing.com.au/",
+          "price": { "amount": 349, "currency": "AUD", "observedAt": "2026-09-18T20:00:00.000Z" },
+          "rating": 4.6,
+          "reviewCount": 218,
+          "verdict": "Best balance of grind quality, repairability and price.",
+          "evidence": ["Strong consistency for espresso at its price", "Simple controls and replaceable burrs"],
+          "confidence": "high"
+        },
+        {
+          "title": "Fellow Opus",
+          "merchant": "Eight Ounce Coffee",
+          "url": "https://eightouncecoffee.ca/",
+          "price": { "amount": 399, "currency": "AUD", "observedAt": "2026-09-18T20:00:00.000Z" },
+          "rating": 4.4,
+          "reviewCount": 172,
+          "verdict": "Quieter and prettier, but less straightforward to dial in.",
+          "evidence": ["Low noise profile", "Useful for mixed brew methods"],
+          "confidence": "medium"
+        }
+      ]
+    },
+    {
+      "id": "item-carry-on",
+      "query": "lightweight carry-on suitcase with good wheels",
+      "notes": "Australian airline cabin dimensions; no glossy black if possible.",
+      "status": "watching",
+      "createdAt": "2026-09-12T07:00:00.000Z",
+      "updatedAt": "2026-09-17T20:00:00.000Z",
+      "recommendations": [
+        {
+          "title": "July Carry On Essential",
+          "merchant": "July",
+          "url": "https://july.com/au/",
+          "price": { "amount": 295, "currency": "AUD", "observedAt": "2026-09-17T20:00:00.000Z" },
+          "rating": 4.5,
+          "reviewCount": 486,
+          "verdict": "A well-reviewed Australian fit with smooth wheels and a useful warranty.",
+          "evidence": ["Fits common domestic cabin limits", "Warranty is clearer than most alternatives"],
+          "confidence": "medium"
+        }
+      ]
+    },
+    {
+      "id": "item-wool-overshirt",
+      "query": "warm wool overshirt for layering",
+      "notes": "Natural fibres, relaxed fit, mid-weight.",
+      "status": "new",
+      "createdAt": "2026-09-18T07:00:00.000Z",
+      "updatedAt": "2026-09-18T07:00:00.000Z",
+      "recommendations": []
+    }
+  ]
+}

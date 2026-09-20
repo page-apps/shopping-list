@@ -1,0 +1,24 @@
+{
+  "name": "shopping-list-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.19.0",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev": "astro dev",
+    "typecheck": "astro check",
+    "build": "astro check && astro build && node scripts/validate-build.mjs",
+    "check": "astro check && astro build && node scripts/validate-build.mjs && node scripts/validate-data.mjs",
+    "validate:data": "node scripts/validate-data.mjs",
+    "research:weekly": "node scripts/research-weekly.mjs"
+  },
+  "dependencies": {
+    "@openai/codex-sdk": "^0.155.1",
+    "astro": "^5.14.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.9.2"
+  }
+}

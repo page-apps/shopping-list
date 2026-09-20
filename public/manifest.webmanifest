@@ -1,0 +1,10 @@
+{
+  "name": "Scout List",
+  "short_name": "Scout List",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f1e8",
+  "theme_color": "#f6f1e8",
+  "description": "A private shopping list with research-backed recommendations."
+}

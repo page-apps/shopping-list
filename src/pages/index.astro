@@ -1,0 +1,85 @@
+---
+import "../styles/global.css";
+import fixture from "../../demo/shopping.json";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#f6f1e8" />
+    <meta name="description" content="A private shopping list with research-backed recommendations." />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href={`${import.meta.env.BASE_URL}manifest.webmanifest`} />
+    <title>Scout List · Shopping, researched</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={import.meta.env.BASE_URL} aria-label="Scout List home"><span class="brand-mark">✦</span><span>Scout <em>List</em></span></a>
+      <div class="header-actions">
+        <div class="status" data-status data-tone="idle"><span class="status-dot"></span><span><strong data-status-label>Demo mode</strong><small data-status-detail>A safe example list is loaded</small></span></div>
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle dark theme">◐</button>
+        <button class="button button-quiet" type="button" data-install hidden>Install</button>
+        <button class="button button-quiet" type="button" data-disconnect-button hidden>Disconnect</button>
+        <button class="button button-dark" type="button" data-connect-button>Open private list</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero wrap">
+        <div class="hero-copy">
+          <p class="eyebrow">Your considered shopping list</p>
+          <h1>Shopping,<br /><span>researched.</span></h1>
+          <p class="hero-lede">Keep a list of things you might buy. Scout checks the good options, current prices and real review signals—so you can spend with confidence.</p>
+        </div>
+        <div class="hero-note"><span class="note-line"></span><p>Private by design.<br />Your list lives in your<br />own GitHub repository.</p></div>
+      </section>
+
+      <section class="add-section wrap">
+        <form class="add-form" data-add-form>
+          <div class="add-icon">＋</div>
+          <div class="add-fields"><label for="query">What are you looking for?</label><input id="query" name="query" autocomplete="off" placeholder="e.g. a quiet espresso grinder for a small kitchen" required /><input name="notes" autocomplete="off" placeholder="Optional preferences, budget, size or constraints" /></div>
+          <button class="button button-accent" type="submit">Add to list <span aria-hidden="true">↗</span></button>
+        </form>
+      </section>
+
+      <section class="stats wrap" aria-label="List summary">
+        <div><span class="stat-label">On the list</span><strong data-stat-items>3</strong><span class="stat-note">active things</span></div>
+        <div><span class="stat-label">Researched</span><strong data-stat-researched>2</strong><span class="stat-note">with options to compare</span></div>
+        <div><span class="stat-label">Last sweep</span><strong data-stat-updated>18 Sep</strong><span class="stat-note">weekly, on schedule</span></div>
+        <div class="stats-callout"><span class="tiny-spark">✦</span><span>Scout looks for<br /><strong>good value, not more stuff.</strong></span></div>
+      </section>
+
+      <section class="workspace wrap">
+        <div class="list-column">
+          <div class="section-heading"><div><p class="eyebrow">The queue</p><h2>Things worth considering</h2></div><span class="list-count" data-list-count>3 things</span></div>
+          <nav class="filters" aria-label="Filter shopping list"><button type="button" data-filter="all" class="is-active">Everything</button><button type="button" data-filter="research_ready">Researched</button><button type="button" data-filter="watching">Watching</button><button type="button" data-filter="bought">Bought</button></nav>
+          <div class="item-list" data-item-list></div>
+          <button class="private-gate" type="button" data-private-gate style="background:transparent;text-align:left;width:100%;font:inherit"><span class="lock">⌁</span><span><strong>This is a demo list</strong><small>Open your private list to make it yours.</small></span><span class="gate-arrow">→</span></button>
+        </div>
+        <aside class="side-column">
+          <section class="side-card method-card"><p class="eyebrow">How Scout works</p><h3>Less scrolling.<br /><em>More certainty.</em></h3><ol><li><span>01</span><div><strong>Tell me what you want</strong><p>Generic or specific is fine. Add the constraints that matter to you.</p></div></li><li><span>02</span><div><strong>I do the legwork</strong><p>Each week, Codex compares reliable retailers, prices and review patterns.</p></div></li><li><span>03</span><div><strong>You choose your moment</strong><p>See the best-value pick, the trade-offs and the original source links.</p></div></li></ol></section>
+          <section class="side-card privacy-card"><div class="privacy-icon">⌂</div><div><strong>Your list is private.</strong><p>Only you can read or change the personal list. The public site contains the interface, not your shopping history.</p><button type="button" data-connect-button class="text-button">Connect your repo <span>↗</span></button></div></section>
+          <div class="schedule-note"><span class="schedule-dot"></span><span><strong>Next research sweep</strong><br /><small>Every Sunday · while you sleep</small></span></div>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="site-footer wrap"><span>Scout List · a personal tool</span><span>Recommendations are research, not a guarantee. Check the retailer before buying.</span></footer>
+
+    <dialog class="connect-dialog" data-connect-dialog>
+      <div class="dialog-title"><div><p class="eyebrow">Owner access</p><h2>Open your private list</h2></div><button type="button" class="close-button" data-dialog-close aria-label="Close dialog">×</button></div>
+      <p class="dialog-copy">Connect a fine-grained GitHub PAT with <strong>Contents: read and write</strong> access to <code>page-apps/shopping-list-data</code>. The token goes only to GitHub.</p>
+      <form data-token-form>
+        <label class="field"><span>Personal access token</span><input name="token" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste your token here" required /></label>
+        <fieldset><legend>Keep connected</legend><label><input type="radio" name="persistence" value="memory" checked /> Until refresh</label><label><input type="radio" name="persistence" value="session" /> This browser tab</label><label><input type="radio" name="persistence" value="local" /> On this device</label></fieldset>
+        <p class="security-note">Persistent browser tokens can be read by malicious same-origin code or browser extensions. Tab-only access is recommended on a trusted device.</p>
+        <p class="form-error" data-connect-error role="alert"></p><button class="button button-dark button-wide" type="submit">Verify and open list</button>
+      </form>
+    </dialog>
+
+    <script type="application/json" id="shopping-fixture" set:html={JSON.stringify(fixture)}></script>
+    <script>import "../lib/app";</script>
+  </body>
+</html>
