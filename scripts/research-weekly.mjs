@@ -9,6 +9,7 @@ const dataPath = path.join(dataRoot, "data/shopping.json");
 const model = process.env.SHOPPING_LIST_MODEL || "gpt-5.6-luna";
 const timezone = process.env.SHOPPING_LIST_TIMEZONE || "Australia/Sydney";
 const git = promisify(execFile);
+const gitOptions = { cwd: dataRoot, maxBuffer: 1024 * 1024 };
 
 const record = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
 const text = (value) => typeof value === "string" && value.trim().length > 0;
@@ -21,10 +22,15 @@ const validList = (value) => record(value) && value.schemaVersion === 1 && text(
   record(item) && text(item.id) && text(item.query) && typeof item.notes === "string" && ["new", "research_ready", "watching", "bought", "archived"].includes(item.status) &&
   text(item.createdAt) && text(item.updatedAt) && Array.isArray(item.recommendations) && item.recommendations.every(validRecommendation));
 
+await git("git", ["pull", "--ff-only"], gitOptions);
 await access(dataPath);
 const list = JSON.parse(await readFile(dataPath, "utf8"));
 if (!validList(list)) throw new Error(`Invalid shopping list contract: ${dataPath}`);
-const active = list.items.filter((item) => item.status !== "archived" && item.status !== "bought");
+const pending = list.items.filter((item) => item.status === "new" && item.recommendations.length === 0);
+if (!pending.length) {
+  console.log(JSON.stringify({ itemsResearched: 0, pendingItems: 0, dataPath, model, published: false, skipped: "no_items_to_research" }, null, 2));
+  process.exit(0);
+}
 const outputSchema = {
   type: "object",
   additionalProperties: false,
@@ -36,7 +42,7 @@ const outputSchema = {
   }
 };
 
-for (const item of active) {
+for (const item of pending) {
   const prompt = `You are researching one personal shopping query. Use reliable retailer product pages and independent review sources available to you. Prefer exact products when the query is specific; otherwise choose three strong value-oriented options. Do not invent prices, ratings, review counts, availability or URLs. If a fact is uncertain, choose a lower confidence or omit the product. Return only JSON matching the supplied schema. Every recommendation must include a direct retailer product URL, an observedAt ISO timestamp, and concise evidence from reviews or specifications. Query: ${item.query}. Preferences: ${item.notes}. Research timezone: ${timezone}.`;
   const result = await runCodexResearch({ model, prompt, outputSchema, workingDirectory: dataRoot });
   if (!Array.isArray(result.recommendations) || !result.recommendations.every(validRecommendation)) throw new Error(`Codex returned invalid research for ${item.id}`);
@@ -51,7 +57,6 @@ const tempPath = `${dataPath}.tmp-${process.pid}`;
 await writeFile(tempPath, `${JSON.stringify(list, null, 2)}\n`, "utf8");
 await rename(tempPath, dataPath);
 
-const gitOptions = { cwd: dataRoot, maxBuffer: 1024 * 1024 };
 const changed = await git("git", ["status", "--porcelain", "--", "data/shopping.json"], gitOptions);
 if (changed.stdout.trim()) {
   await git("git", ["add", "--", "data/shopping.json"], gitOptions);
@@ -60,4 +65,4 @@ if (changed.stdout.trim()) {
   await git("git", ["commit", "--only", "-m", `shopping-list: weekly research ${new Date().toISOString().slice(0, 10)}`, "--", "data/shopping.json"], gitOptions);
 }
 await git("git", ["push"], gitOptions);
-console.log(JSON.stringify({ itemsResearched: active.length, dataPath, model, published: true }, null, 2));
+console.log(JSON.stringify({ itemsResearched: pending.length, pendingItems: pending.length, dataPath, model, published: true }, null, 2));

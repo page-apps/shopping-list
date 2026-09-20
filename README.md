@@ -13,7 +13,10 @@ pnpm dev
 pnpm check
 ```
 
-The browser starts in demo mode. Connect a fine-grained GitHub PAT with
+The public browser starts in reader mode with safe in-memory fixture data. A
+local scheduled coding agent using the Codex SDK and `gpt-5.6-luna` performs
+the actual research; the public page does not call an agent. Connect a
+fine-grained GitHub PAT with
 Contents: read and write access to the fixed private data repository to load
 and save the real list. Tokens are kept in memory by default, or in the
 selected browser storage after explicit consent.
@@ -27,9 +30,11 @@ The local Temporal worker should invoke the research command with
 SHOPPING_LIST_DATA_REPO=/absolute/path/to/shopping-list-data pnpm research:weekly
 ```
 
-The command reads the canonical list, asks Codex to research each active item,
-validates the structured response, writes the private JSON atomically and
-commits/pushes only the private data repository. Retailer links, price dates,
+The command fast-forwards the data checkout from its remote before reading the
+canonical list. It asks Codex to research only new items without
+recommendations, and exits without a model call or data commit when there is
+nothing to research. It validates the structured response, writes the private
+JSON atomically and commits/pushes only the private data repository. Retailer links, price dates,
 review evidence and confidence are retained with every recommendation so a
 future deterministic retailer adapter can replace the broad research step.
 

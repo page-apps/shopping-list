@@ -44,7 +44,7 @@ function renderStats(): void {
 
 function recommendationCard(item: ShoppingItem): string {
   const pick = item.recommendations[0];
-  if (!pick) return `<div class="empty-research"><span class="empty-research-mark">✦</span><div><strong>Ready to scout</strong><p>Next weekly pass will find options, prices and review signals.</p></div></div>`;
+  if (!pick) return `<div class="empty-research"><span class="empty-research-mark">✦</span><div><strong>Waiting for Codex</strong><p>The next scheduled coding-agent pass will find options, prices and review signals.</p></div></div>`;
   return `<div class="pick-card">
     <div class="pick-top"><span class="pick-badge">Best value</span><span class="confidence">${escapeHtml(pick.confidence)} confidence</span></div>
     <div class="pick-heading"><div><p class="pick-kicker">${escapeHtml(pick.merchant)}</p><h4>${escapeHtml(pick.title)}</h4></div><strong class="price">${escapeHtml(formatPrice(pick.price))}</strong></div>
@@ -134,7 +134,7 @@ function setup(): void {
   document.querySelectorAll<HTMLElement>("[data-filter]").forEach((button) => button.addEventListener("click", () => { filter = button.dataset.filter as typeof filter; render(); }));
   document.querySelectorAll<HTMLElement>("[data-connect-button]").forEach((button) => button.addEventListener("click", openConnect));
   $<HTMLElement>("[data-private-gate]").addEventListener("click", openConnect);
-  $<HTMLElement>("[data-disconnect-button]").addEventListener("click", () => { vault.disconnect(); repository = null; account = ""; list = structuredClone(embedded<ShoppingList>("shopping-fixture")); selectedId = list.items[0]?.id ?? null; showConnected(false); setStatus("Demo mode", "A safe example list is loaded", "idle"); render(); });
+  $<HTMLElement>("[data-disconnect-button]").addEventListener("click", () => { vault.disconnect(); repository = null; account = ""; list = structuredClone(embedded<ShoppingList>("shopping-fixture")); selectedId = list.items[0]?.id ?? null; showConnected(false); setStatus("Reader mode", "A safe in-memory example is loaded", "idle"); render(); });
   $<HTMLElement>("[data-dialog-close]").addEventListener("click", () => $<HTMLDialogElement>("[data-connect-dialog]").close());
   $<HTMLElement>("[data-use-shared]").addEventListener("click", () => {
     void connect(vault.useShared(), "memory", false).catch((error) => {
