@@ -10,7 +10,12 @@ import fixture from "../../demo/shopping.json";
     <meta name="viewport" content="width=device-width" />
     <meta name="theme-color" content="#f6f1e8" />
     <meta name="description" content="A private shopping list with research-backed recommendations." />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Scout List" />
+    <link rel="icon" type="image/png" sizes="32x32" href={`${import.meta.env.BASE_URL}icons/favicon-32.png`} />
+    <link rel="apple-touch-icon" sizes="180x180" href={`${import.meta.env.BASE_URL}icons/apple-touch-icon.png`} />
     <link rel="manifest" href={`${import.meta.env.BASE_URL}manifest.webmanifest`} />
     <title>Scout List · Shopping, researched</title>
   </head>
@@ -36,7 +41,7 @@ import fixture from "../../demo/shopping.json";
         <div class="hero-note"><span class="note-line"></span><p>Private by design.<br />Your list lives in your<br />own GitHub repository.</p></div>
       </section>
 
-      <section class="add-section wrap">
+      <section class="add-section wrap" id="add">
         <form class="add-form" data-add-form>
           <div class="add-icon">＋</div>
           <div class="add-fields"><label for="query">What are you looking for?</label><input id="query" name="query" autocomplete="off" placeholder="e.g. a quiet espresso grinder for a small kitchen" required /><input name="notes" autocomplete="off" placeholder="Optional preferences, budget, size or constraints" /></div>

@@ -149,8 +149,14 @@ function setup(): void {
   });
   $<HTMLElement>("[data-theme-toggle]").addEventListener("click", () => document.documentElement.classList.toggle("dark"));
   window.addEventListener("beforeinstallprompt", (event) => { event.preventDefault(); installPrompt = event as typeof installPrompt; $<HTMLElement>("[data-install]").removeAttribute("hidden"); });
-  $<HTMLElement>("[data-install]").addEventListener("click", () => { if (installPrompt) void installPrompt.prompt(); });
-  if ("serviceWorker" in navigator) window.addEventListener("load", () => void navigator.serviceWorker.register(`${import.meta.env.BASE_URL}service-worker.js`));
+  $<HTMLElement>("[data-install]").addEventListener("click", async () => {
+    if (!installPrompt) return;
+    await installPrompt.prompt();
+    installPrompt = null;
+    $<HTMLElement>("[data-install]").setAttribute("hidden", "");
+  });
+  window.addEventListener("appinstalled", () => { installPrompt = null; $<HTMLElement>("[data-install]").setAttribute("hidden", ""); });
+  if ("serviceWorker" in navigator) window.addEventListener("load", () => void navigator.serviceWorker.register(`${import.meta.env.BASE_URL}service-worker.js`, { scope: import.meta.env.BASE_URL }));
   const token = vault.restore();
   if (token) void connect(token, "memory", false).catch(() => vault.disconnect());
   render();
